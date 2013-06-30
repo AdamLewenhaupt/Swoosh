@@ -1,0 +1,10 @@
+database: localhost:3000
+objects:
+    users:
+        fields:
+            name: String
+            pass: String
+        methods:
+            - get
+            - put
+            - post

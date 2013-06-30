@@ -1,0 +1,20 @@
+{
+  "name": "swoosh",
+  "version": "0.1.0",
+  "description": "A quick declarative way to use a mongodb backend.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "Persistent",
+    "Database"
+  ],
+  "author": "Adam Lewenhaupt",
+  "license": "BSD",
+  "dependencies": {
+    "js-yaml": "*",
+    "mongoose": "*"
+  }
+}
