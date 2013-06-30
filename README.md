@@ -29,7 +29,7 @@ then to use swoosh in node simply
 ```
 path = require('path');
 
-piece(path.join(__dirname, "piece.yml"), function(err, objects){
+piece(path.join(__dirname, "swoosh.yml"), function(err, objects){
 	if(err) console.log("Err :(", err);
 	else {
 		// automatic routing only works with express.
