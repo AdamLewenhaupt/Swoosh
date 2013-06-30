@@ -1,0 +1,4 @@
+* Make routes more flexible.
+* Make methods optional
+* Add delete method.
+* Make it optional to use JSON instead of yaml.
