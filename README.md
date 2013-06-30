@@ -4,25 +4,25 @@ Swoosh is a quick declarative way to speed up basic persistent-layer stuff.
 
 To use swoosh, one simple create a yaml file, for example named swoosh.yml
 `
-# The database url.
-database: mongodb://<user>:<pass>@host.com:port
-# Here we define all objects.
-objects:
-	# Defining the users object.
-    users:
-    	# The objects field.
-        fields:
-            name: String
-            pass: String
-        # What kind of restful request should the object handle?
-        methods:
-            - get
-            - put
-            - post
-        # Optionally you can specify what fields you want to respond with
-        # This for example would make a get-request only deliver the name of the user.
-        public:
-        	- name
+	# The database url.
+	database: mongodb://<user>:<pass>@host.com:port
+	# Here we define all objects.
+	objects:
+		# Defining the users object.
+	    users:
+	    	# The objects field.
+	        fields:
+	            name: String
+	            pass: String
+	        # What kind of restful request should the object handle?
+	        methods:
+	            - get
+	            - put
+	            - post
+	        # Optionally you can specify what fields you want to respond with
+	        # This for example would make a get-request only deliver the name of the user.
+	        public:
+	        	- name
 `
 
 then to use swoosh in node simply
