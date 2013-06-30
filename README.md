@@ -3,7 +3,7 @@
 Swoosh is a quick declarative way to speed up basic persistent-layer stuff.
 
 To use swoosh, one simple create a yaml file, for example named swoosh.yml
-```
+```yaml
 # The database url.
 database: mongodb://<user>:<pass>@host.com:port
 # Here we define all objects.
@@ -26,7 +26,7 @@ objects:
 ```
 
 then to use swoosh in node simply
-```
+```javascript
 path = require('path');
 swoosh = require('swoosh');
 
