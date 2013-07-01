@@ -106,7 +106,8 @@ var path = require('path'),
     swoosh = require('swoosh');
     
 swoosh(path.join(__dirname, "swoosh.yml"), function(err, collections){
-	//Here is the api
+	
+	//Do something greate
 });
 ```
 
@@ -133,3 +134,34 @@ the whole collection is delivered.
 ##### post #####
 
 ` post(data, callback) where callback(err, response)`
+
+The server-side equivelent of a post request, given the data for creation it
+will create a new entity in the database and return it as response to the callback.
+
+##### put #####
+
+` put(id, data, callback) where callback(err, response)`
+
+The server-side equivelent of a put request, provide a id and some data and this method will update
+the specified entity in the database and the return the entity with the updates in place.
+
+##### route #####
+
+` route(app) where app is an express application`
+
+The route function require an express application to operate and will register the routes for the collection.
+
+#### Swoosh ####
+
+This api is accessed from the swoosh function.
+``` javascript
+swoosh.route(app) // Like this
+swoosh(.., function(err, collection) {
+
+	this.route(app) // Or this
+});
+```
+
+##### route #####
+
+This function will generate all specified routes for all the collections.
