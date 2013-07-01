@@ -22,57 +22,57 @@ loadData = function(path, fn) {
   }
 };
 
-initialize = function(doc, log) {
-  var field, fields, mLog, obj, retval, runLogs;
-  runLogs = log != null ? log : true;
+initialize = function(doc) {
+  var collection, field, fields, mLog, retval, root, runLogs, url, _ref, _ref1;
+  runLogs = (_ref = doc.log) != null ? _ref : true;
+  url = doc.database;
+  root = (_ref1 = doc.path) != null ? _ref1 : "persistent";
   retval = {};
   mLog = function(str) {
     if (runLogs) {
       return console.log(str);
     }
   };
-  for (obj in doc.objects) {
+  for (collection in doc.collections) {
     fields = {};
-    for (field in doc.objects[obj].fields) {
-      fields[field] = eval(doc.objects[obj].fields[field]);
+    for (field in doc.collections[collection].fields) {
+      fields[field] = eval(doc.collections[collection].fields[field]);
     }
-    retval[obj] = factory(obj, fields, doc.objects[obj].methods, doc.objects[obj]["public"]);
+    retval[collection] = factory(collection, fields, doc.collections[collection].methods, doc.collections[collection]["public"], root);
   }
-  mLog("Establishing database connection");
-  mongoose.connect(doc.database, doc["db-options"], function(err) {
-    if (!err) {
-      return mLog("Successfully connected to database");
-    } else {
-      return mLog(err);
-    }
-  });
+  if (url) {
+    mLog("Establishing database connection");
+    mongoose.connect(url, doc["db-options"], function(err) {
+      if (!err) {
+        return mLog("Successfully connected to database");
+      } else {
+        return mLog(err);
+      }
+    });
+  }
   mongoose.connection.on('error', function(err) {
     return mLog(err);
   });
   return retval;
 };
 
-module.exports = function(path, log, fn) {
+module.exports = function(path, fn) {
   var self;
   self = this;
   self.route = function(app) {
     var attr, _results;
     _results = [];
-    for (attr in self.objects) {
-      _results.push(self.objects[attr].route(app));
+    for (attr in self.collections) {
+      _results.push(self.collections[attr].route(app));
     }
     return _results;
   };
-  if (arguments.length === 2) {
-    fn = log;
-    log = false;
-  }
   return loadData(path, function(err, doc) {
     if (err) {
       return fn(err);
     } else {
-      self.objects = initialize(doc, log);
-      return fn.call(self, null, self.objects);
+      self.collections = initialize(doc);
+      return fn.call(self, null, self.collections);
     }
   });
 };

@@ -4,7 +4,7 @@ var mongoose,
 
 mongoose = require('mongoose');
 
-module.exports = function(name, attributes, methods, publicAttr) {
+module.exports = function(name, attributes, methods, publicAttr, root) {
   var generated, getPub, pub, schema;
   getPub = function(entity) {
     if (publicAttr) {
@@ -84,7 +84,7 @@ module.exports = function(name, attributes, methods, publicAttr) {
   };
   generated.route = function(app) {
     if (__indexOf.call(methods, "get") >= 0) {
-      app.get("/persistent/" + name + "/:id?", function(req, res) {
+      app.get("/" + root + "/" + name + "/:id?", function(req, res) {
         return generated.get(req.params.id, function(err, response) {
           var x;
           if (err) {
@@ -106,7 +106,7 @@ module.exports = function(name, attributes, methods, publicAttr) {
       });
     }
     if (__indexOf.call(methods, "post") >= 0) {
-      app.post("/persistent/" + name, function(req, res) {
+      app.post("/" + root + "/" + name, function(req, res) {
         return generated.post(req.body, function(err, response) {
           if (err) {
             return res.send(500, err);
@@ -117,7 +117,7 @@ module.exports = function(name, attributes, methods, publicAttr) {
       });
     }
     if (__indexOf.call(methods, "put") >= 0) {
-      return app.put("/persistent/" + name + "/:id", function(req, res) {
+      return app.put("/" + root + "/" + name + "/:id", function(req, res) {
         return generated.put(req.params.id, req.body, function(err, response) {
           if (err) {
             return res.send(500, err);

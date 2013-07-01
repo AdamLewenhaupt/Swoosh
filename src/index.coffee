@@ -12,46 +12,45 @@ loadData = (path, fn) ->
 	else
 		fn err
 
-initialize = (doc, log) ->
-	runLogs = log ? true
+initialize = (doc) ->
+	runLogs = doc.log ? true
+	url = doc.database
+	root = doc.path ? "persistent"
 	retval = {}
 
 	mLog = (str) ->
 		if runLogs 
 			console.log str
 
-	for obj of doc.objects
+	for collection of doc.collections
 		fields = {}
-		for field of doc.objects[obj].fields
-			fields[field] = eval(doc.objects[obj].fields[field]) 
-		retval[obj] = factory obj, fields, doc.objects[obj].methods, doc.objects[obj].public
+		for field of doc.collections[collection].fields
+			fields[field] = eval(doc.collections[collection].fields[field]) 
+		retval[collection] = factory collection, fields, doc.collections[collection].methods, doc.collections[collection].public, root
 
-	mLog "Establishing database connection"
-	mongoose.connect doc.database, doc["db-options"], (err) ->
-		unless err
-			mLog "Successfully connected to database"
-		else
-			mLog err
+	if url
+		mLog "Establishing database connection"
+		mongoose.connect url, doc["db-options"], (err) ->
+			unless err
+				mLog "Successfully connected to database"
+			else
+				mLog err
 
 	mongoose.connection.on 'error', (err) ->
 		mLog err
 	
 	retval
 
-module.exports = (path, log, fn) ->
+module.exports = (path, fn) ->
 
 	self = this
 	self.route = (app) ->
-		for attr of self.objects
-			self.objects[attr].route(app)
-
-	if arguments.length == 2
-		fn = log
-		log = false
+		for attr of self.collections
+			self.collections[attr].route(app)
 
 	loadData path, (err, doc) ->
 		if err
 			fn err
 		else
-			self.objects = initialize(doc, log)
-			fn.call self, null, self.objects
+			self.collections = initialize doc
+			fn.call self, null, self.collections

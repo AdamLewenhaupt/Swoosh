@@ -1,6 +1,6 @@
 mongoose = require 'mongoose'
 
-module.exports = (name, attributes, methods, publicAttr) ->
+module.exports = (name, attributes, methods, publicAttr, root) ->
 
 	getPub = (entity) -> if publicAttr then generated.pub entity else entity
 
@@ -52,7 +52,7 @@ module.exports = (name, attributes, methods, publicAttr) ->
  
 	generated.route = (app) ->
 		if "get" in methods
-			app.get "/persistent/#{name}/:id?", (req, res) ->
+			app.get "/#{root}/#{name}/:id?", (req, res) ->
 				generated.get req.params.id, (err, response) ->
 					if err
 						res.send 500, err
@@ -64,7 +64,7 @@ module.exports = (name, attributes, methods, publicAttr) ->
 								getPub x)
 
 		if "post" in methods
-			app.post "/persistent/#{name}", (req, res) ->
+			app.post "/#{root}/#{name}", (req, res) ->
 				generated.post req.body, (err, response) ->
 					if err
 						res.send 500, err
@@ -72,7 +72,7 @@ module.exports = (name, attributes, methods, publicAttr) ->
 						res.send getPub(response)
 
 		if "put" in methods
-			app.put "/persistent/#{name}/:id", (req, res) ->
+			app.put "/#{root}/#{name}/:id", (req, res) ->
 				generated.put req.params.id, req.body, (err, response) ->
 					if err
 						res.send 500, err
