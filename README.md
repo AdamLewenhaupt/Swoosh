@@ -55,6 +55,81 @@ swoosh(path.join(__dirname, "swoosh.yml"), function(err, collections){
 });
 ```
 
-Currently swoosh automatically routes to: "/persistent/name" but more flexibility is to be added.
-
 This package is still in a very early stage, but if people find it interesting I would love to improve it further.
+
+
+## API ##
+
+### Yaml ###
+
+#### database ####
+Required if swoosh is to automatically connect to a database.
+If you wish to connect to a database manually skip this field.
+
+#### log ####
+Logging is by default set to true, so this field must only be specified if you want
+to stop loggging.
+
+#### path ####
+The path is the root from wich the persistent routes are available. This is by default set to persistent
+which means that for example a get request to a users collection would have the url: "/persistent/users/"
+
+#### collections ####
+It's here you define all the collections, a collection in turn consists of a few fields
+
+##### fields #####
+This field contains all the fields of the collection,
+for example: `name: String`, for further information on supported types, 
+please refere to http://mongoosejs.com/docs/schematypes.html
+
+##### methods #####
+This field describes what RESTful methods should be supported by the generated routes, 
+left empty the collection will only be accessable by the nodejs API.
+
+##### public #####
+The public field is a type of a filter that will be applied when respondining to requests.
+For example if the public field was defined as such:
+```yaml
+public:
+  - name
+```
+a get request would only send the name field.
+
+If no public field is defined all fields will be sent.
+
+### Node ###
+
+As previously described to access the api first run
+
+```javascript
+var path = require('path'),
+    swoosh = require('swoosh');
+    
+swoosh(path.join(__dirname, "swoosh.yml"), function(err, collections){
+	//Here is the api
+});
+```
+
+#### Collection ####
+
+The collections object provides a simple way to handle the specified collections from nodejs.
+
+##### pub #####
+
+` pub(entity) -> public entity `
+
+This method is only available if you specified public fields for you collection.
+It takes but one argument, a single entity from the collection and from it creates a public version
+of the object.
+
+##### get #####
+
+` get(id, callback) where callback(err, response)`
+
+This is the server-side equivelent of a get request and will
+deliver a specific entity if a id is specified, if the id field is null
+the whole collection is delivered.
+
+##### post #####
+
+` post(data, callback) where callback(err, response)`
