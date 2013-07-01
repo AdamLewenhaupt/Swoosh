@@ -2,12 +2,14 @@
 
 Swoosh is a quick declarative way to speed up basic persistent-layer stuff.
 
+## The yaml part ##
+
 To use swoosh, one simple create a yaml file, for example named swoosh.yml
 ```yaml
 # The database url.
 database: mongodb://<user>:<pass>@host.com:port
 # Here we define all objects.
-objects:
+collections:
 	# Defining the users object.
     users:
     	# The objects field.
@@ -25,12 +27,13 @@ objects:
         	- name
 ```
 
-then to use swoosh in node simply
+## The node part ##
+
 ```javascript
 path = require('path');
 swoosh = require('swoosh');
 
-swoosh(path.join(__dirname, "swoosh.yml"), function(err, objects){
+swoosh(path.join(__dirname, "swoosh.yml"), function(err, collections){
 	if(err) console.log("Err :(", err);
 	else {
 		// automatic routing only works with express.
@@ -42,7 +45,7 @@ swoosh(path.join(__dirname, "swoosh.yml"), function(err, objects){
 
 		For example to create a new user we simply write.
 		*/
-		objects["users"].post({
+		collections["users"].post({
 			name: "Bob",
 			pass: "superSecret"
 			}, function(bob) {
