@@ -146,6 +146,12 @@ will create a new entity in the database and return it as response to the callba
 The server-side equivelent of a put request, provide a id and some data and this method will update
 the specified entity in the database and the return the entity with the updates in place.
 
+##### delete #####
+
+` delete(id, callback) were callback(err)`
+
+The server-side equivelent of a delete request, given a id this method will remove the matching entity from the database.
+
 ##### route #####
 
 ` route(app) where app is an express application`
