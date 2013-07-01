@@ -2,8 +2,10 @@
 
 Swoosh is a quick declarative way to speed up basic persistent-layer stuff.
 
+## Declarative part ##
+
 To use swoosh, one simple create a yaml file, for example named swoosh.yml
-```
+```yaml
 # The database url.
 database: mongodb://<user>:<pass>@host.com:port
 # Here we define all objects.
@@ -25,8 +27,10 @@ objects:
         	- name
 ```
 
+## Node part ##
+
 then to use swoosh in node simply
-```
+```javascript
 path = require('path');
 
 piece(path.join(__dirname, "piece.yml"), function(err, objects){
@@ -54,3 +58,4 @@ piece(path.join(__dirname, "piece.yml"), function(err, objects){
 Currently swoosh automatically routes to: "/persistent/name" but more flexibility is to be added.
 
 This package is still in a very early stage, but if people find it interesting I would love to improve it further.
+
