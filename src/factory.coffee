@@ -49,6 +49,15 @@ module.exports = (name, attributes, methods, publicAttr, root) ->
 				entity.save (err) ->
 					if err then cb err
 					else cb null, entity
+
+
+	generated.delete = (id, fn) ->
+		cb = fn ? ->
+		if id
+			generated.model.remove { _id: id }, (err) -> cb(err)
+		else 
+			cb "No id specified"
+
  
 	generated.route = (app) ->
 		if "get" in methods
@@ -79,6 +88,12 @@ module.exports = (name, attributes, methods, publicAttr, root) ->
 					else
 						res.send response
 
-
+		if "delete" in methods
+			app.delete "/#{root}/#{name}/:id", (req, res) ->
+				generated.delete req.params.id, (err) ->
+					if err
+						res.send 500, err
+					else
+						res.send 200
 
 	generated

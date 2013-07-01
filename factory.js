@@ -82,6 +82,19 @@ module.exports = function(name, attributes, methods, publicAttr, root) {
       }
     });
   };
+  generated["delete"] = function(id, fn) {
+    var cb;
+    cb = fn != null ? fn : function() {};
+    if (id) {
+      return generated.model.remove({
+        _id: id
+      }, function(err) {
+        return cb(err);
+      });
+    } else {
+      return cb("No id specified");
+    }
+  };
   generated.route = function(app) {
     if (__indexOf.call(methods, "get") >= 0) {
       app.get("/" + root + "/" + name + "/:id?", function(req, res) {
@@ -117,12 +130,23 @@ module.exports = function(name, attributes, methods, publicAttr, root) {
       });
     }
     if (__indexOf.call(methods, "put") >= 0) {
-      return app.put("/" + root + "/" + name + "/:id", function(req, res) {
+      app.put("/" + root + "/" + name + "/:id", function(req, res) {
         return generated.put(req.params.id, req.body, function(err, response) {
           if (err) {
             return res.send(500, err);
           } else {
             return res.send(response);
+          }
+        });
+      });
+    }
+    if (__indexOf.call(methods, "delete") >= 0) {
+      return app["delete"]("/" + root + "/" + name + "/:id", function(req, res) {
+        return generated["delete"](req.params.id, function(err) {
+          if (err) {
+            return res.send(500, err);
+          } else {
+            return res.send(200);
           }
         });
       });
