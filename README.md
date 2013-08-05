@@ -3,7 +3,6 @@
 Swoosh is a quick declarative way to speed up basic persistent-layer stuff.
 
 ## The yaml part ##
->>>>>>> b3d636c8b548508dca8dcd71d9e040522e63a69c
 
 To use swoosh, one simple create a yaml file, for example named swoosh.yml
 ```yaml
