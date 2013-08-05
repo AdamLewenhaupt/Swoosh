@@ -1,12 +1,12 @@
 {
   "name": "swoosh",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A quick declarative way to use a mongodb backend.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": "",
+  "repository": "https://github.com/spinno/swoosh",
   "keywords": [
     "Persistent",
     "Database"
