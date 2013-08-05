@@ -2,6 +2,12 @@ require 'js-yaml'
 mongoose = require 'mongoose'
 factory = require './factory'
 
+parseType = (mbyString) ->
+	if typeof mbyString == "string"
+		eval mbyString
+	else
+		mbyString.map parseType
+
 loadData = (path, fn) ->
 	try
 		doc = require(path)
@@ -25,8 +31,13 @@ initialize = (doc) ->
 	for collection of doc.collections
 		fields = {}
 		for field of doc.collections[collection].fields
-			fields[field] = eval(doc.collections[collection].fields[field]) 
-		retval[collection] = factory collection, fields, doc.collections[collection].methods, doc.collections[collection].public, root
+			data = parseType doc.collections[collection].fields[field]
+
+		methods = doc.collections[collection].methods
+		if typeof methods == "string" && methods == "all"
+			methods = ["get", "put", "post", "delete"]
+
+		retval[collection] = factory collection, fields, methods, doc.collections[collection].public, root
 
 	if url
 		mLog "Establishing database connection"

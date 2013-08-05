@@ -14,7 +14,6 @@
   "author": "Adam Lewenhaupt",
   "license": "BSD",
   "dependencies": {
-    "js-yaml": "*",
-    "mongoose": "*"
+    "js-yaml": "*"
   }
 }
