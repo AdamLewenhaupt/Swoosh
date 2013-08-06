@@ -48,7 +48,7 @@ swoosh(path.join(__dirname, "swoosh.yml"), function(err, collections){
 		collections["users"].post({
 			name: "Bob",
 			pass: "superSecret"
-			}, function(bob) {
+			}, function(err, bob) {
 				console.log(bob.name);
 			});
 	}
