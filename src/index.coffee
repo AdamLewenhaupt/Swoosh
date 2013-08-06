@@ -29,13 +29,15 @@ initialize = (doc) ->
 			console.log str
 
 	for collection of doc.collections
-		fields = {}
+		fields = {}		
 		for field of doc.collections[collection].fields
-			data = parseType doc.collections[collection].fields[field]
+			fields[field] = parseType doc.collections[collection].fields[field]
 
 		methods = doc.collections[collection].methods
 		if typeof methods == "string" && methods == "all"
 			methods = ["get", "put", "post", "delete"]
+		else if methods == undefined
+			methods = []
 
 		retval[collection] = factory collection, fields, methods, doc.collections[collection].public, root
 

@@ -1,6 +1,6 @@
 {
   "name": "swoosh",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "A quick declarative way to use a mongodb backend.",
   "main": "index.js",
   "scripts": {
@@ -14,6 +14,7 @@
   "author": "Adam Lewenhaupt",
   "license": "BSD",
   "dependencies": {
-    "js-yaml": "*"
+    "js-yaml": "*",
+    "mongoose": "*"
   }
 }

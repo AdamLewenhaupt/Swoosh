@@ -31,7 +31,7 @@ loadData = function(path, fn) {
 };
 
 initialize = function(doc) {
-  var collection, data, field, fields, mLog, methods, retval, root, runLogs, url, _ref, _ref1;
+  var collection, field, fields, mLog, methods, retval, root, runLogs, url, _ref, _ref1;
   runLogs = (_ref = doc.log) != null ? _ref : true;
   url = doc.database;
   root = (_ref1 = doc.path) != null ? _ref1 : "persistent";
@@ -44,11 +44,13 @@ initialize = function(doc) {
   for (collection in doc.collections) {
     fields = {};
     for (field in doc.collections[collection].fields) {
-      data = parseType(doc.collections[collection].fields[field]);
+      fields[field] = parseType(doc.collections[collection].fields[field]);
     }
     methods = doc.collections[collection].methods;
     if (typeof methods === "string" && methods === "all") {
       methods = ["get", "put", "post", "delete"];
+    } else if (methods === void 0) {
+      methods = [];
     }
     retval[collection] = factory(collection, fields, methods, doc.collections[collection]["public"], root);
   }
